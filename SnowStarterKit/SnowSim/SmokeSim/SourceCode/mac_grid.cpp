@@ -123,18 +123,18 @@ void MACGrid::updateSources()
 	
     // TODO: Set initial values for density, temperature, and velocity.
 	int SX = 6;
-	int SY = 0;
+	int SY = 1;
 	int SZ = 4;
 	
 	int SX2 = 6;
 	int SY2 = 0;
 	int SZ2 = 5;
 	
-	mT(SX,SY,SZ) = 40; 
-	mD(SX,SY,SZ) = 5;
-	mP(SX,SY,SZ) = 5;
+	mT(SX-1,SY-1,SZ-1) = 30; 
+	mD(SX-1,SY-1,SZ-1) = 1;
+	mP(SX-1,SY-1,SZ-1) = 0;
 	mU(SX,SY,SZ) = 0;
-	mV(SX,SY,SZ) = 5.001;
+	mV(SX,SY,SZ) = 0.001;
 	mW(SX,SY,SZ) = 0;
 
 	//mT(SX2,SY2,SZ2) = 50; 
@@ -286,7 +286,7 @@ void MACGrid::computeVorticityConfinement(double dt)
 {
 	// TODO: Calculate vorticity confinement forces.
 	// Apply the forces to the current velocity and store the result in target.
-	double epsilon=7;
+	double epsilon=1;
 	
 	target.mU = mU;
 	target.mV = mV;
