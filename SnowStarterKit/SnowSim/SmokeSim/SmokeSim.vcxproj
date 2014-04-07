@@ -69,6 +69,7 @@
     <ClCompile Include="SourceCode\grid_data.cpp" />
     <ClCompile Include="SourceCode\mac_grid.cpp" />
     <ClCompile Include="SourceCode\main.cpp" />
+    <ClCompile Include="SourceCode\mpm_grid.cpp" />
     <ClCompile Include="SourceCode\smoke_sim.cpp" />
     <ClCompile Include="SourceCode\stb_image.c" />
     <ClCompile Include="SourceCode\stb_image_write.c" />
@@ -82,9 +83,10 @@
     <ClInclude Include="SourceCode\custom_output.h" />
     <ClInclude Include="SourceCode\fps.h" />
     <ClInclude Include="SourceCode\grid_data.h" />
-    <ClInclude Include="SourceCode\grid_data_matrix.h" />
+    <ClInclude Include="SourceCode\grid_vec.h" />
     <ClInclude Include="SourceCode\mac_grid.h" />
     <ClInclude Include="SourceCode\matrix.h" />
+    <ClInclude Include="SourceCode\mpm_grid.h" />
     <ClInclude Include="SourceCode\open_gl_headers.h" />
     <ClInclude Include="SourceCode\smoke_sim.h" />
     <ClInclude Include="SourceCode\stb_image.h" />

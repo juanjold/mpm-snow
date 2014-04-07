@@ -48,6 +48,9 @@
     <ClCompile Include="SourceCode\constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\mpm_grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\fps.h">
@@ -83,9 +86,6 @@
     <ClInclude Include="SourceCode\mac_grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\grid_data_matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\grid_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,6 +96,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\mpm_grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\grid_vec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

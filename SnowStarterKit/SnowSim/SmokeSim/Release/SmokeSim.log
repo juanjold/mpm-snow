@@ -1,10 +1,13 @@
-﻿Build started 4/7/2014 12:55:11 PM.
+﻿Build started 4/7/2014 2:35:26 PM.
      1>Project "C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\SmokeSim\SmokeSim.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\SmokeSim.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt SourceCode\mac_grid.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt SourceCode\mac_grid.cpp SourceCode\main.cpp SourceCode\mpm_grid.cpp SourceCode\smoke_sim.cpp
          mac_grid.cpp
+         main.cpp
+         mpm_grid.cpp
+         smoke_sim.cpp
          All outputs are up-to-date.
        Link:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\Release\SmokeSim.exe" /NOLOGO opengl32.lib glu32.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\SmokeSim.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\Release\SmokeSim.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\Release\SmokeSim.lib" /MACHINE:X86 Release\basic_math.obj
@@ -14,20 +17,64 @@
          Release\grid_data.obj
          Release\mac_grid.obj
          Release\main.obj
+         Release\mpm_grid.obj
          Release\smoke_sim.obj
          Release\stb_image.obj
          Release\stb_image_write.obj
          Release\vec.obj
-         Generating code
-         Finished generating code
-         SmokeSim.vcxproj -> C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\Release\SmokeSim.exe
-       Manifest:
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\Release\SmokeSim.exe;#1" /manifest Release\SmokeSim.exe.intermediate.manifest
-       FinalizeBuildStatus:
-         Deleting file "Release\SmokeSim.unsuccessfulbuild".
-         Touching "Release\SmokeSim.lastbuildstate".
-     1>Done Building Project "C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\SmokeSim\SmokeSim.vcxproj" (build target(s)).
+     1>mpm_grid.obj : error LNK2005: "double density" (?density@@3NA) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: static enum MACGrid::RenderMode MACGrid::theRenderMode" (?theRenderMode@MACGrid@@2W4RenderMode@1@A) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: static bool MACGrid::theDisplayVel" (?theDisplayVel@MACGrid@@2_NA) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "int numberOfObjects" (?numberOfObjects@@3HA) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "class vec3 * object1E" (?object1E@@3PAVvec3@@A) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "class vec3 * object1S" (?object1S@@3PAVvec3@@A) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "class MACGrid target" (?target@@3VMACGrid@@A) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawCube(struct MACGrid::Cube const &)" (?drawCube@MACGrid@@IAEXABUCube@1@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawFace(struct MACGrid::Cube const &)" (?drawFace@MACGrid@@IAEXABUCube@1@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawWireGrid(void)" (?drawWireGrid@MACGrid@@IAEXXZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawSmokeCubes(class Camera const &)" (?drawSmokeCubes@MACGrid@@IAEXABVCamera@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawSmoke(class Camera const &)" (?drawSmoke@MACGrid@@IAEXABVCamera@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawXSheets(bool)" (?drawXSheets@MACGrid@@IAEX_N@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawZSheets(bool)" (?drawZSheets@MACGrid@@IAEX_N@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: class vec4 __thiscall MACGrid::getRenderColor(class vec3 const &)" (?getRenderColor@MACGrid@@IAE?AVvec4@@ABVvec3@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: class vec4 __thiscall MACGrid::getRenderColor(int,int,int)" (?getRenderColor@MACGrid@@IAE?AVvec4@@HHH@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawVelocities(void)" (?drawVelocities@MACGrid@@IAEXXZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::draw(class Camera const &)" (?draw@MACGrid@@QAEXABVCamera@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::saveSmoke(char const *)" (?saveSmoke@MACGrid@@QAEXPBD@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::apply(class GridDataMatrix const &,class GridData const &,class GridData &)" (?apply@MACGrid@@IAEXABVGridDataMatrix@@ABVGridData@@AAV3@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::maxMagnitude(class GridData const &)" (?maxMagnitude@MACGrid@@IAENABVGridData@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::multiply(double,class GridData const &,class GridData &)" (?multiply@MACGrid@@IAEXNABVGridData@@AAV2@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::subtract(class GridData const &,class GridData const &,class GridData &)" (?subtract@MACGrid@@IAEXABVGridData@@0AAV2@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::add(class GridData const &,class GridData const &,class GridData &)" (?add@MACGrid@@IAEXABVGridData@@0AAV2@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::dotProduct(class GridData const &,class GridData const &)" (?dotProduct@MACGrid@@IAENABVGridData@@0@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: bool __thiscall MACGrid::conjugateGradient(class GridDataMatrix const &,class GridData &,class GridData const &,int,double)" (?conjugateGradient@MACGrid@@IAE_NABVGridDataMatrix@@AAVGridData@@ABV3@HN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::setUpAMatrix(void)" (?setUpAMatrix@MACGrid@@IAEXXZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: bool __thiscall MACGrid::isValidCell(int,int,int)" (?isValidCell@MACGrid@@IAE_NHHH@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: class vec3 __thiscall MACGrid::getCenter(int,int,int)" (?getCenter@MACGrid@@IAE?AVvec3@@HHH@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::getDensity(class vec3 const &)" (?getDensity@MACGrid@@IAENABVvec3@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::getTemperature(class vec3 const &)" (?getTemperature@MACGrid@@IAENABVvec3@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::getVelocityZ(class vec3 const &)" (?getVelocityZ@MACGrid@@IAENABVvec3@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::getVelocityY(class vec3 const &)" (?getVelocityY@MACGrid@@IAENABVvec3@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: double __thiscall MACGrid::getVelocityX(class vec3 const &)" (?getVelocityX@MACGrid@@IAENABVvec3@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: class vec3 __thiscall MACGrid::getVelocity(class vec3 const &)" (?getVelocity@MACGrid@@IAE?AVvec3@@ABV2@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::project(double)" (?project@MACGrid@@QAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::addExternalForces(double)" (?addExternalForces@MACGrid@@QAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::computeVorticityConfinement(double)" (?computeVorticityConfinement@MACGrid@@IAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::computeBouyancy(double)" (?computeBouyancy@MACGrid@@IAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::advectDensity(double)" (?advectDensity@MACGrid@@QAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::advectTemperature(double)" (?advectTemperature@MACGrid@@QAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::advectVelocity(double)" (?advectVelocity@MACGrid@@QAEXN@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::updateSources(void)" (?updateSources@MACGrid@@QAEXXZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::initialize(void)" (?initialize@MACGrid@@IAEXXZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "protected: void __thiscall MACGrid::drawObjects(class Camera const &)" (?drawObjects@MACGrid@@IAEXABVCamera@@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: void __thiscall MACGrid::reset(void)" (?reset@MACGrid@@QAEXXZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: __thiscall MACGrid::~MACGrid(void)" (??1MACGrid@@QAE@XZ) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: class MACGrid & __thiscall MACGrid::operator=(class MACGrid const &)" (??4MACGrid@@QAEAAV0@ABV0@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: __thiscall MACGrid::MACGrid(class MACGrid const &)" (??0MACGrid@@QAE@ABV0@@Z) already defined in mac_grid.obj
+     1>mpm_grid.obj : error LNK2005: "public: __thiscall MACGrid::MACGrid(void)" (??0MACGrid@@QAE@XZ) already defined in mac_grid.obj
+     1>C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\Release\SmokeSim.exe : fatal error LNK1169: one or more multiply defined symbols found
+     1>Done Building Project "C:\Users\Thunder\Documents\GitHub\mpm-snow\SnowStarterKit\SnowSim\SmokeSim\SmokeSim.vcxproj" (build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:03.66
+Time Elapsed 00:00:04.52

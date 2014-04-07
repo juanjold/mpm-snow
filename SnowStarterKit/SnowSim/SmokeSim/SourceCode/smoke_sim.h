@@ -6,6 +6,7 @@
 #define smokeSim_H_
 
 #include "mac_grid.h"
+#include "mpm_grid.h"
 
 class Camera;
 class SmokeSim
