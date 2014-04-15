@@ -38,13 +38,14 @@ Target3D(float target_[3], float dist_, float heading_, float pitch_, float fovy
 void Target3D::
 click(int button, int state, int x, int y)
 {
+
    if(state==GLUT_UP)
       action_mode=INACTIVE;
    else if(button==GLUT_LEFT_BUTTON)
       action_mode=ROTATE;
-   else if(button==GLUT_MIDDLE_BUTTON)
-      action_mode=TRUCK;
    else if(button==GLUT_RIGHT_BUTTON)
+      action_mode=TRUCK;
+   else if(button==GLUT_MIDDLE_BUTTON)
       action_mode=DOLLY;
    oldmousex=x;
    oldmousey=y;

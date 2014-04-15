@@ -34,10 +34,6 @@ bool MACGrid::theDisplayVel = false;
       for(int j = theDim[MACGrid::Y] - 1; j >= 0; j--) \
          for(int i = theDim[MACGrid::X] - 1; i >= 0; i--) 
 
-#define FOR_EACH_FACE \
-   for(int k = 0; k < theDim[MACGrid::Z]+1; k++) \
-      for(int j = 0; j < theDim[MACGrid::Y]+1; j++) \
-         for(int i = 0; i < theDim[MACGrid::X]+1; i++) 
 
 
 

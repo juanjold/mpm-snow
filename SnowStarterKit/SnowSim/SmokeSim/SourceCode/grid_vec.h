@@ -1,6 +1,4 @@
-// Written by Peter Kutz.
-// See Bridson's Fluids Notes, section 4.3.1 Putting Them In Matrix-Vector Form (on page 31, or PDF page 43)
-// for an explanation of this symmetric sparse matrix data structure.
+// Modified by Tyler Barkin
 
 #ifndef GRID_DATA_VEC
 #define GRID_DATA_VEC
@@ -12,13 +10,13 @@ private:
 protected:
 public:
 	GridDataVec() {
-		U.initialize();
-		V.initialize();
-		W.initialize();
+		mU.initialize();
+		mV.initialize();
+		mW.initialize();
 	}
-	GridData U;
-	GridData V;
-	GridData W;
+	GridData mU;
+	GridData mV;
+	GridData mW;
 };
 
 #endif // GRID_VEC

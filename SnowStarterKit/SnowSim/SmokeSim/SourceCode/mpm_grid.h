@@ -1,4 +1,4 @@
-//By Tyler Barkin
+//Modified By Tyler Barkin
 
 #ifndef MPMGrid_H_
 #define MPMGrid_H_
@@ -25,11 +25,6 @@ public:
 
 	void draw(const Camera& c);
 	void updateSources();
-	//void advectVelocity(double dt);
-	//void addExternalForces(double dt);
-	//void project(double dt);
-	//void advectTemperature(double dt);
-	//void advectDensity(double dt);
 
 protected:
 

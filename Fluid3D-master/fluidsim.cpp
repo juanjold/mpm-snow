@@ -12,9 +12,11 @@ void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
    nj = nj_;
    nk = nk_;
    dx = width / (float)ni;
-   u.resize(ni+1,nj,nk); temp_u.resize(ni+1,nj,nk); u_weights.resize(ni+1,nj,nk); u_valid.resize(ni+1,nj,nk);
-   v.resize(ni,nj+1,nk); temp_v.resize(ni,nj+1,nk); v_weights.resize(ni,nj+1,nk); v_valid.resize(ni,nj+1,nk);
-   w.resize(ni,nj,nk+1); temp_w.resize(ni,nj,nk+1); w_weights.resize(ni,nj,nk+1); w_valid.resize(ni,nj,nk+1);
+   //Velecity Grid (At Nodal Points)
+   u.resize(ni+1,nj+1,nk+1); temp_u.resize(ni+1,nj+1,nk+1); u_weights.resize(ni+1,nj+1,nk+1); u_valid.resize(ni+1,nj+1,nk+1);
+   v.resize(ni+1,nj+1,nk+1); temp_v.resize(ni+1,nj+1,nk+1); v_weights.resize(ni+1,nj+1,nk+1); v_valid.resize(ni+1,nj+1,nk+1);
+   w.resize(ni+1,nj+1,nk+1); temp_w.resize(ni+1,nj+1,nk+1); w_weights.resize(ni+1,nj+1,nk+1); w_valid.resize(ni+1,nj+1,nk+1);
+   mass.resize(ni+1,nj+1,nk+1); //MassGrid (At Nodal Points)
 
    particle_radius = (float)(dx * 1.01*sqrt(3.0)/2.0); 
    //make the particles large enough so they always appear on the grid
@@ -22,6 +24,8 @@ void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
    u.set_zero();
    v.set_zero();
    w.set_zero();
+   mass.set_zero();
+
    nodal_solid_phi.resize(ni+1,nj+1,nk+1);
    valid.resize(ni+1, nj+1, nk+1);
    old_valid.resize(ni+1, nj+1, nk+1);
@@ -34,7 +38,9 @@ void FluidSim::set_boundary(float (*phi)(const Vec3f&)) {
 
    for(int k = 0; k < nk+1; ++k) for(int j = 0; j < nj+1; ++j) for(int i = 0; i < ni+1; ++i) {
       Vec3f pos(i*dx,j*dx,k*dx);
-      nodal_solid_phi(i,j,k) = phi(pos);
+    nodal_solid_phi(i,j,k) = phi(pos);
+	
+	
    }
 
 }
@@ -201,8 +207,6 @@ void FluidSim::advect_particles(float dt) {
          particles[p] -= phi_val * grad;
       }
    }
-   
-
 }
 
 //Basic first order semi-Lagrangian advection of velocities

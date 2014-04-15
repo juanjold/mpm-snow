@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int grid_resolution = 60;
+int grid_resolution = 30; //60
 float timestep = 0.01f;
 int frame = 0;
 
@@ -25,12 +25,13 @@ float sphere_phi(const Vec3f& position, const Vec3f& centre, float radius) {
 Vec3f c0(0.5f,0.5f,0.5f);
 float rad0 = 0.35f;
 
+
 float boundary_phi(const Vec3f& position) {
    return -sphere_phi(position, c0, rad0);
 }
 
 float liquid_phi(const Vec3f& position) {
-   return sphere_phi(position, Vec3f(0.55f, 0.55f, 0.4f), 0.23f);
+   return sphere_phi(position, Vec3f(0.55f, 0.55f, 0.4f), 0.1f);
 }
 
 void export_particles(string path, int frame, const std::vector<Vec3f>& particles, float radius);

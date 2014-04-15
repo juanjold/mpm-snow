@@ -29,6 +29,7 @@ public:
    //Static geometry representation
    Array3f nodal_solid_phi;
    Array3f u_weights, v_weights, w_weights;
+   Array3f mass;
    Array3c u_valid, v_valid, w_valid;
 
    std::vector<Vec3f> particles;
