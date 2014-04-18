@@ -5,7 +5,7 @@
 #include "vec.h"
 #include "pcgsolver/sparse_matrix.h"
 #include "pcgsolver/pcg_solver.h"
-
+#include "Eigen/Dense"
 #include <vector>
 
 class FluidSim {
@@ -25,6 +25,7 @@ public:
    //Fluid velocity
    Array3f u, v, w;
    Array3f temp_u, temp_v, temp_w;
+   Array3f uS, vS, wS;
    
    //Static geometry representation
    Array3f nodal_solid_phi;
@@ -39,7 +40,15 @@ public:
    std::vector<float> particlesMass;
    std::vector<float> particlesDensity;
    std::vector<float> particlesVolume;
-   std::vector<float> particlesDeformation;
+   std::vector<Eigen::Matrix3f > particlesDeformation;
+   std::vector<Eigen::Matrix3f > plasticDeformationGradient;
+   std::vector<Eigen::Matrix3f > elasticDeformationGradient;
+   /*
+   std::vector<float> JE;
+   std::vector<float> JP;
+   std::vector<Eigen::Matrix3f > RE;
+   std::vector<Eigen::Matrix3f > SE;
+   */
 
    float particle_radius;
 
@@ -78,7 +87,7 @@ private:
    void ParticleToGrid(); // (3/4) Done *Include Velocity to grid update (uncomment) 
    void ParticleVolumeDensity(); // Done 
    void ComputeGridForces(); //Not Started *Equation (6) from paper
-   void UpdateVelocityOnGrid(); //Not Started
+   void UpdateVelocityOnGrid(float dt); //Not Started
    void GridBasedBodyCollisions(); //Not Started
    void SolveLinearSystem(); //Not Started
    void UpdateDeformation(); //Not Started

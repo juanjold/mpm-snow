@@ -40,7 +40,6 @@ void export_particles(string path, int frame, const std::vector<Vec3f>& particle
 //-------------
 int main(int argc, char **argv)
 {
-   
    if(argc!=2){
       cerr << "The first parameter should be the folder to write the output liquid meshes into. (eg. c:\\output\\)" << endl;
       return 1;
@@ -70,7 +69,6 @@ int main(int argc, char **argv)
       printf("Exporting particle data\n");
       export_particles(outpath, frame, sim.particles, sim.particle_radius);
    }
-
    return 0;
 }
 

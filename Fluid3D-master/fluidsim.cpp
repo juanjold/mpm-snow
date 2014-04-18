@@ -25,6 +25,11 @@ void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
    u.resize(ni+1,nj+1,nk+1); temp_u.resize(ni+1,nj+1,nk+1); u_weights.resize(ni+1,nj+1,nk+1); u_valid.resize(ni+1,nj+1,nk+1);
    v.resize(ni+1,nj+1,nk+1); temp_v.resize(ni+1,nj+1,nk+1); v_weights.resize(ni+1,nj+1,nk+1); v_valid.resize(ni+1,nj+1,nk+1);
    w.resize(ni+1,nj+1,nk+1); temp_w.resize(ni+1,nj+1,nk+1); w_weights.resize(ni+1,nj+1,nk+1); w_valid.resize(ni+1,nj+1,nk+1);
+ 
+   uS.resize(ni+1,nj+1,nk+1);
+   vS.resize(ni+1,nj+1,nk+1);
+   wS.resize(ni+1,nj+1,nk+1);
+
    mass.resize(ni+1,nj+1,nk+1); //MassGrid (At Nodal Points)
    density.resize(ni+1,nj+1,nk+1);
 
@@ -76,7 +81,9 @@ void FluidSim::set_liquid(float (*phi)(const Vec3f&)) {
 			particlesMass.push_back(0.1); //Kg
 			particlesDensity.push_back(0);
 			particlesVolume.push_back(0);
-			particlesDeformation.push_back(1); //3x3 init with identity
+			particlesDeformation.push_back(Eigen::Matrix3f::Identity()); //3x3 init with identity
+		    plasticDeformationGradient.push_back(Eigen::Matrix3f::Identity());
+			elasticDeformationGradient.push_back(Eigen::Matrix3f::Identity());
 		 }
 	  }
    }
@@ -256,7 +263,20 @@ void FluidSim::add_force(float dt) {
 
 }
 
+void FluidSim::UpdateVelocityOnGrid(float dt) {
 
+	FOR_ALL_NODES {
+		uS(i,j,k) = u(i,j,k) + dt*1/mass(i,j,k);// multiply force // think about inverse mass div 0
+		vS(i,j,k) = v(i,j,k) + dt*1/mass(i,j,k);// multiply force // think about inverse mass div 0
+		wS(i,j,k) = w(i,j,k) + dt*1/mass(i,j,k);// multiply force // think about inverse mass div 0
+
+	}
+
+	u = uS;
+	v = vS;
+	w = wS;
+
+}
 
 //For extrapolated points, replace the normal component
 //of velocity with the object velocity (in this case zero).
