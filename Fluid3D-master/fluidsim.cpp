@@ -14,7 +14,7 @@ void extrapolate(Array3f& grid, Array3c& valid);
 #define FOR_ALL_PARTICLES \
    for(int p = 0; p < particles.size(); p++)
 
-
+//This is a comment
 void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
    ni = ni_;
    nj = nj_;
