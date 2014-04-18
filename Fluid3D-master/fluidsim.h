@@ -29,10 +29,18 @@ public:
    //Static geometry representation
    Array3f nodal_solid_phi;
    Array3f u_weights, v_weights, w_weights;
-   Array3f mass;
    Array3c u_valid, v_valid, w_valid;
 
+   Array3f mass, density;
+
    std::vector<Vec3f> particles;
+   std::vector<Vec3f> particlesVel;
+   std::vector<Vec3f> particlesCell;
+   std::vector<float> particlesMass;
+   std::vector<float> particlesDensity;
+   std::vector<float> particlesVolume;
+   std::vector<float> particlesDeformation;
+
    float particle_radius;
 
    Array3f liquid_phi;
@@ -65,6 +73,18 @@ private:
    void solve_pressure(float dt);
    void compute_phi();
 
+   // Need a better way to handle intepolation weights, might want to store they are used many many times
+   void printParticles(); //Done lol
+   void ParticleToGrid(); // (3/4) Done *Include Velocity to grid update (uncomment) 
+   void ParticleVolumeDensity(); // Done 
+   void ComputeGridForces(); //Not Started *Equation (6) from paper
+   void UpdateVelocityOnGrid(); //Not Started
+   void GridBasedBodyCollisions(); //Not Started
+   void SolveLinearSystem(); //Not Started
+   void UpdateDeformation(); //Not Started
+   void UpdateParticleVel(); //Not Started
+   void ParticleBasedBodyCollisions(); //Not Started
+   void UpdateParticlePos(); //Not Started
 
 
 };

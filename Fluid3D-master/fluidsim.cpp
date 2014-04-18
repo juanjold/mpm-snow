@@ -6,17 +6,27 @@
 #include "pcgsolver/pcg_solver.h"
 
 void extrapolate(Array3f& grid, Array3c& valid);
+#define FOR_ALL_NODES \
+   for(int k = 0; k < nk+1; k++) \
+      for(int j = 0; j < nj+1; j++) \
+         for(int i = 0; i < ni+1; i++)
+
+#define FOR_ALL_PARTICLES \
+   for(int p = 0; p < particles.size(); p++)
+
 
 void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
    ni = ni_;
    nj = nj_;
    nk = nk_;
    dx = width / (float)ni;
+   printf("dx : %f \n " , dx);
    //Velecity Grid (At Nodal Points)
    u.resize(ni+1,nj+1,nk+1); temp_u.resize(ni+1,nj+1,nk+1); u_weights.resize(ni+1,nj+1,nk+1); u_valid.resize(ni+1,nj+1,nk+1);
    v.resize(ni+1,nj+1,nk+1); temp_v.resize(ni+1,nj+1,nk+1); v_weights.resize(ni+1,nj+1,nk+1); v_valid.resize(ni+1,nj+1,nk+1);
    w.resize(ni+1,nj+1,nk+1); temp_w.resize(ni+1,nj+1,nk+1); w_weights.resize(ni+1,nj+1,nk+1); w_valid.resize(ni+1,nj+1,nk+1);
    mass.resize(ni+1,nj+1,nk+1); //MassGrid (At Nodal Points)
+   density.resize(ni+1,nj+1,nk+1);
 
    particle_radius = (float)(dx * 1.01*sqrt(3.0)/2.0); 
    //make the particles large enough so they always appear on the grid
@@ -33,6 +43,7 @@ void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
 
 }
 
+
 //Initialize the grid-based signed distance field that dictates the position of the solid boundary
 void FluidSim::set_boundary(float (*phi)(const Vec3f&)) {
 
@@ -45,6 +56,7 @@ void FluidSim::set_boundary(float (*phi)(const Vec3f&)) {
 
 }
 
+//8 particles per cell
 void FluidSim::set_liquid(float (*phi)(const Vec3f&)) {
    //surface.reset_phi(phi, dx, Vec3f(0.5f*dx,0.5f*dx,0.5f*dx), ni, nj, nk);
    
@@ -57,14 +69,130 @@ void FluidSim::set_liquid(float (*phi)(const Vec3f&)) {
 
       if(phi(pos) <= -particle_radius) {
          float solid_phi = interpolate_value(pos/dx, nodal_solid_phi);
-         if(solid_phi >= 0)
+         if(solid_phi >= 0){
             particles.push_back(pos);
-      }
+		    particlesVel.push_back(Vec3f(0,0,0));
+			particlesCell.push_back(Vec3f(floor(pos[0]/dx+0.5),floor(pos[1]/dx+0.5),floor(pos[2]/dx+0.5)));
+			particlesMass.push_back(0.1); //Kg
+			particlesDensity.push_back(0);
+			particlesVolume.push_back(0);
+			particlesDeformation.push_back(1); //3x3 init with identity
+		 }
+	  }
    }
+   ParticleToGrid();
+   ParticleVolumeDensity();
+}
+void FluidSim::printParticles(){
+	FOR_ALL_PARTICLES{
+		printf("Particle %d : Xp : %f,%f,%f\n",p,particlesCell[p][0],particlesCell[p][1],particlesCell[p][2]);
+	}
+}
+void FluidSim::ParticleToGrid(){
+	float di,dj,dk,ax,by,cz,wi;
+	//u.set_zero();
+    //v.set_zero();
+    //w.set_zero();
+	mass.set_zero();
+	FOR_ALL_NODES{
+		FOR_ALL_PARTICLES{
+			if( abs((particlesCell[p][0]-i))<=2  && abs((particlesCell[p][1]-j))<=2 && abs((particlesCell[p][2]-k))<=2 ){  
+				di = abs(particles[p][0]/dx-i);
+				dj = abs(particles[p][1]/dx-j);
+				dk = abs(particles[p][2]/dx-k);
+				
+				if(di < 1)
+					ax=pow(di,3)/2-pow(di,2)+((float)2/(float)3);
+				else if(di < 2)
+					ax=-pow(di,3)/6+pow(di,2)-2*di+((float)4/(float)3);
+				else
+					ax=0;
+				if(dj < 1)
+					by=pow(dj,3)/2-pow(dj,2)+((float)2/(float)3);
+				else if(dj < 2)
+					by=-pow(dj,3)/6+pow(dj,2)-2*dj+((float)4/(float)3);
+				else
+					by=0;
+				if(dk < 1)
+					cz=pow(dk,3)/2-pow(dk,2)+((float)2/(float)3);
+				else if(dk < 2)
+					cz=-pow(dk,3)/6+pow(dk,2)-2*dk+((float)4/(float)3);
+				else
+					cz=0;
+				wi=ax*by*cz;
+			}else{
+				wi=0;
+			}
+			mass(i,j,k)+=wi*particlesMass[p];
+			//u(i,j,k)+=particlesVel[p][0]*particlesMass[p]*wi;
+			//v(i,j,k)+=particlesVel[p][1]*particlesMass[p]*wi;
+			//w(i,j,k)+=particlesVel[p][2]*particlesMass[p]*wi;
+		}
+		/*if(mass(i,j,k)){
+			printf("wi : %f \n",wi);
+			printf("Mass Nodes(%d,%d,%d) : %f\n",i,j,k,mass(i,j,k));
+		}*/
+		//u(i,j,k)=u(i,j,k)/mass(i,j,k);
+		//v(i,j,k)=v(i,j,k)/mass(i,j,k);
+		//w(i,j,k)=w(i,j,k)/mass(i,j,k);
+	}
+}
+void FluidSim::ParticleVolumeDensity(){
+	float volcell = pow(dx,3);
+	FOR_ALL_NODES{
+		density(i,j,k)=mass(i,j,k)/volcell; //Density of a grid node
+	}
+	
+	float di,dj,dk,ax,by,cz,wi;
+	FOR_ALL_PARTICLES{
+		FOR_ALL_NODES{
+			if( abs((particlesCell[p][0]-i))<=2  && abs((particlesCell[p][1]-j))<=2 && abs((particlesCell[p][2]-k))<=2 ){  
+				di = abs(particles[p][0]/dx-i);
+				dj = abs(particles[p][1]/dx-j);
+				dk = abs(particles[p][2]/dx-k);
+				
+				if(di < 1)
+					ax=pow(di,3)/2-pow(di,2)+((float)2/(float)3);
+				else if(di < 2)
+					ax=-pow(di,3)/6+pow(di,2)-2*di+((float)4/(float)3);
+				else
+					ax=0;
+				if(dj < 1)
+					by=pow(dj,3)/2-pow(dj,2)+((float)2/(float)3);
+				else if(dj < 2)
+					by=-pow(dj,3)/6+pow(dj,2)-2*dj+((float)4/(float)3);
+				else
+					by=0;
+				if(dk < 1)
+					cz=pow(dk,3)/2-pow(dk,2)+((float)2/(float)3);
+				else if(dk < 2)
+					cz=-pow(dk,3)/6+pow(dk,2)-2*dk+((float)4/(float)3);
+				else
+					cz=0;
+				wi=ax*by*cz;
+			}else{
+				wi=0;
+			}
+			particlesDensity[p]+=mass(i,j,k)*wi/volcell;
+		}
+		printf("Particle %d Density : %f \n",p,particlesDensity[p]);
+		particlesVolume[p]=particlesMass[p]/particlesDensity[p];
+		printf("Particle %d Volume : %f \n",p,particlesVolume[p]);
+	}
 }
 
+
+
+
+void FluidSim::ComputeGridForces(){
+
+}
 //The main fluid simulation step
 void FluidSim::advance(float dt) {
+   //printParticles();
+	   ParticleToGrid();
+	   
+
    float t = 0;
 
    while(t < dt) {
