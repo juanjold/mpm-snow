@@ -43,6 +43,17 @@ public:
    std::vector<Eigen::Matrix3f > particlesDeformation;
    std::vector<Eigen::Matrix3f > plasticDeformationGradient;
    std::vector<Eigen::Matrix3f > elasticDeformationGradient;
+   
+   //GridForces constants
+    float thetaCompress;      //Crit Compression
+    float thetaStretch;      //Crit Stretch
+    float hardening;           //Hardening Coff
+    float rho0;         //Inital Density
+    float youngs0;       //Youngs Modulus 
+    float poisson;          //poission Ratio
+    float mu0;
+    float lambda0;
+
    /*
    std::vector<float> JE;
    std::vector<float> JP;
@@ -86,7 +97,7 @@ private:
    void printParticles(); //Done lol
    void ParticleToGrid(); // (3/4) Done *Include Velocity to grid update (uncomment) 
    void ParticleVolumeDensity(); // Done 
-   void ComputeGridForces(); //Not Started *Equation (6) from paper
+   void ComputeGridForces(float dt); //Not Started *Equation (6) from paper
    void UpdateVelocityOnGrid(float dt); //Not Started
    void GridBasedBodyCollisions(); //Not Started
    void SolveLinearSystem(); //Not Started

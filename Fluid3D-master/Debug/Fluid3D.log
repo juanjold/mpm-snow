@@ -1,22 +1,9 @@
-﻿Build started 4/15/2014 10:58:39 AM.
-     1>Project "C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Fluid3D.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Debug\Fluid3D.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         All outputs are up-to-date.
-       Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Debug\Fluid3D.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Fluid3D.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Debug\Fluid3D.pdb" /MAP /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Debug\Fluid3D.lib" /MACHINE:X86 Debug\fluidsim.obj
-         Debug\levelset_util.obj
-         Debug\main.obj
-         LINK : C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Debug\Fluid3D.exe not found or not built by the last incremental link; performing full link
-         Fluid3D.vcxproj -> C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Debug\Fluid3D.exe
-       Manifest:
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Debug\Fluid3D.exe;#1" /manifest Debug\Fluid3D.exe.intermediate.manifest
-       FinalizeBuildStatus:
-         Deleting file "Debug\Fluid3D.unsuccessfulbuild".
-         Touching "Debug\Fluid3D.lastbuildstate".
-     1>Done Building Project "C:\Users\Thunder\Documents\GitHub\mpm-snow\Fluid3D-master\Fluid3D.vcxproj" (build target(s)).
+﻿Build started 4/22/2014 6:50:24 PM.
+     1>Project "C:\Users\Juanjo\Documents\GitHub\mpm-snow\Fluid3D-master\Fluid3D.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug\Fluid3D.lastbuildstate".
+     1>Done Building Project "C:\Users\Juanjo\Documents\GitHub\mpm-snow\Fluid3D-master\Fluid3D.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.29
+Time Elapsed 00:00:00.01

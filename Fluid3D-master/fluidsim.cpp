@@ -46,6 +46,15 @@ void FluidSim::initialize(float width, int ni_, int nj_, int nk_) {
    old_valid.resize(ni+1, nj+1, nk+1);
    liquid_phi.resize(ni,nj,nk);
 
+    //GridForces constants
+    thetaCompress = 0.025;      //Crit Compression
+    thetaStretch = 0.0075;      //Crit Stretch
+    hardening = 10;           //Hardening Coff
+    rho0 = 400;         //Inital Density
+    youngs0 = 140000;       //Youngs Modulus 
+    poisson = 0.2;          //poission Ratio
+    mu0 = youngs0/(2*(1+poisson));
+    lambda0 = poisson*youngs0/((1+poisson)*(1-2*poisson));
 }
 
 
@@ -191,8 +200,98 @@ void FluidSim::ParticleVolumeDensity(){
 
 
 
-void FluidSim::ComputeGridForces(){
+void FluidSim::ComputeGridForces(float dt){
 
+	/*
+	PSEUDO CODE
+
+	  //Known : 
+    thetaCompress=2.5e-2;      //Crit Compression
+    thetaStretch=7.5e-3;      //Crit Stretch
+    hardening=10;           //Hardening Coff
+    rho0=4e2;         //Inital Density
+    youngs0=1.4e5;       //Youngs Modulus 
+    poisson=0.2;          //poission Ratio
+    //Lame Parameters 
+    float mu0 = youngs0/(2*(1+poisson));
+    float lambda0 = poisson*youngs0/((1+poisson)*(1-2*poisson));
+    //Initialized on set_liquid
+    F = eye(3)      //Total Deformation : particlesDeformation
+    FE = eye(3)     //Elastic Deformation : plasticDeformationGradient
+    FP = eye(3)     //Plastic Deformation : elasticDeformationGradient
+    
+    
+    FOR_ALL_PARTICLES {
+        FOR_ALL_NODES{
+			float Jp = plasticDeformationGradient[p].determinant();
+			float Je = elasticDeformationGradient[p].determinant();
+             //Re and Se by polar decomposition of Fe
+            float mu  = mu0*exp(hardening*(1-Jp));
+            float lambda = lambda0*exp(hardening*(1-Jp));
+             Phi = mu*pow(norm(Fe-Re),2) + (lambda/2) * pow((Je - 1),2)
+       
+   //Pseudo Code 
+   Eigen::Matrix3f Eye3 = Eigen::Matrix3f::Identity()
+   Vec3f x1 = particles[p]; //Current Position
+   Vec3f x2=x1+dt*particlesVel[p] //Predicted Position
+   Eigen::Matrix3f Fe1 = elasticDeformationGradient[p];
+   
+   
+   Re1 //Polar Decomp
+   Je1 = Je;
+   Eigen::Matrix3f Fe2 = (Eye3 + sum(x2-x1)*(grad_weights)')*Fe1
+   Re2 //Polar Decomp
+   Je2 = Fe2.determinant();
+   float Phi1= mu*pow(norm(Fe1-Re1),2) + (lambda/2) * pow((Je1-1),2)
+   float Phi2= mu*pow(norm(Fe2-Re2),2) + (lambda/2) * pow((Je2-1),2)
+   sigma = (1/Jp)*(Phi2-Phi1)*Fe1'
+   float NewVol = Jp*particlesVolume[p]
+   force -= (NewVol*sigma*grad_weights)
+        }
+    }
+}
+
+*/
+    Eigen::Matrix3f Fe, Re1, Fe2, Re2, Se1, sigma, force, matU, matV, matZ;
+	Eigen::Vector3f vecZ;
+	float Je1, Je2, Phi1, Phi2, newVol, Jp, Je;
+	Eigen::Matrix3f eye3 = Eigen::Matrix3f::Identity();
+	Vec3f x1, x2;
+
+    FOR_ALL_NODES{
+	   FOR_ALL_PARTICLES { //only want to go through particles that are close enough so.... yea?
+		   if( abs((particlesCell[p][0]-i))<=2  && abs((particlesCell[p][1]-j))<=2 && abs((particlesCell[p][2]-k))<=2 ){
+			 Jp = plasticDeformationGradient[p].determinant();
+			 Fe = elasticDeformationGradient[p];
+			 Je = Fe.determinant();
+             //Re and Se by polar decomposition of Fe
+			 Eigen::JacobiSVD<Eigen::MatrixXf> svd(Fe, Eigen::ComputeFullU | Eigen::ComputeFullV);
+			 matU = svd.matrixU();
+			 matV = svd.matrixV();
+			 vecZ = svd.singularValues();
+			 matZ = vecZ.asDiagonal();
+			 Re1 = matU * matV.transpose();
+			 Se1 = matV * matZ * matV.transpose();
+
+			 float mu  = mu0*exp(hardening*(1-Jp));
+             float lambda = lambda0*exp(hardening*(1-Jp));
+
+			 Vec3f x2=x1+dt*particlesVel[p];
+			 x1 = particles[p];
+			 Je1 = Je;
+			 Fe2 = eye3; //+ sum(x2-x1)*(grad_weights).trasposed()*Fe1;
+			 Je2 = Fe2.determinant();
+			 Phi1 = mu * pow((Fe-Re1).norm(),2) + (lambda/2) * pow((Je1-1),2);
+			 Phi2 = mu * pow((Fe2-Re2).norm(),2) + (lambda/2) * pow((Je2-1),2);
+
+			 sigma = (1/Jp) * (Phi2-Phi1)*Fe.transpose();
+			 newVol = Jp*particlesVolume[p];
+			 force -= newVol*sigma;//*grad_weights;
+		   }
+        }
+    }
+    
+    
 }
 //The main fluid simulation step
 void FluidSim::advance(float dt) {
